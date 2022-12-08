@@ -6,9 +6,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.business.entities.Gasto;
 import com.example.demo.business.entities.SeedStarter;
+import com.example.demo.business.entities.TipoGasto;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.google.gson.Gson;
 
@@ -31,6 +34,16 @@ import com.google.gson.Gson;
 public class ControllerPage {
 	
 	private ArrayList<Gasto> listGasto = new ArrayList<>();
+	
+	public ArrayList<TipoGasto> getListTipoGasto(){
+		ArrayList<TipoGasto> arrayList = new ArrayList<>();
+		arrayList.add(new TipoGasto(1, "COMIDA")); 
+		arrayList.add(new TipoGasto(2, "RECREACION"));
+		arrayList.add(new TipoGasto(3, "ROPA")); 
+		arrayList.add(new TipoGasto(4, "DEPORTE"));
+		arrayList.add(new TipoGasto(5, "VIAJE"));
+		return arrayList;
+	}
 	
 	@RequestMapping(value = "/holaPage")
 	public ModelAndView index(final Gasto gastos, final ModelMap model) {
@@ -68,55 +81,58 @@ public class ControllerPage {
 		 }
 		*/
 		
-		ArrayList<Root> roots = new ArrayList<>();
-		
-		URL url = null;
-		HttpURLConnection http = null;
-		Root user = null;
-		JSONArray jsonObject = null;
-		try {
-			url = new URL("https://jsonplaceholder.typicode.com/users");
-			http = (HttpURLConnection)url.openConnection();
-			
-			InputStreamReader inputStreamReader = new InputStreamReader(http.getInputStream());
-			
-			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-			while((inputLine = bufferedReader.readLine()) != null) {
-				response.append(inputLine);
-			}
-			
-			jsonObject = new JSONArray(response.toString());
-						
-			for (int index = 0; index < jsonObject.length(); index++) {
-				JSONObject object = new JSONObject(jsonObject.getJSONObject(index).toString());
-				
-				Gson gson = new Gson();  
-				user = gson.fromJson(object.toString(), Root.class); 
-		
-				roots.add(user);
-				
-			}
-			
-			
-			bufferedReader.close();
-			
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			
-		} catch (IOException e) {
-			// TODO: handle exception
-		}
+//		ArrayList<Root> roots = new ArrayList<>();
+//		
+//		URL url = null;
+//		HttpURLConnection http = null;
+//		Root user = null;
+//		JSONArray jsonObject = null;
+//		try {
+//			url = new URL("https://jsonplaceholder.typicode.com/users");
+//			http = (HttpURLConnection)url.openConnection();
+//			
+//			InputStreamReader inputStreamReader = new InputStreamReader(http.getInputStream());
+//			
+//			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+//
+//			String inputLine;
+//			StringBuffer response = new StringBuffer();
+//			while((inputLine = bufferedReader.readLine()) != null) {
+//				response.append(inputLine);
+//			}
+//			
+//			jsonObject = new JSONArray(response.toString());
+//						
+//			for (int index = 0; index < jsonObject.length(); index++) {
+//				JSONObject object = new JSONObject(jsonObject.getJSONObject(index).toString());
+//				
+//				Gson gson = new Gson();  
+//				user = gson.fromJson(object.toString(), Root.class); 
+//		
+//				roots.add(user);
+//				
+//			}
+//			
+//			
+//			bufferedReader.close();
+//			
+//		} catch (MalformedURLException e) {
+//			// TODO Auto-generated catch block
+//			
+//		} catch (IOException e) {
+//			// TODO: handle exception
+//		}
 		
 		
 		ModelAndView modelAndView = new ModelAndView("hola");
 		
-		modelAndView.addObject("users", roots);
-		modelAndView.addObject("listGasto", listGasto);
+		//modelAndView.addObject("users", roots);
 		
-		modelAndView.addObject("jsonObject", jsonObject);
+		
+		
+		modelAndView.addObject("listGasto", listGasto);
+		modelAndView.addObject("listTipoGasto", getListTipoGasto());
+		//modelAndView.addObject("jsonObject", jsonObject);
 		Gasto gasto = new Gasto();
 		modelAndView.addObject("gasto", gasto);
 		
@@ -126,6 +142,8 @@ public class ControllerPage {
 	
 	@RequestMapping(value = "/crearGasto", params = {"guardarGasto"})
 	public String indexfrom(@ModelAttribute(name = "gasto") Gasto gasto, BindingResult bindingResult, ModelMap model) {
+		Date date = new Date(System.currentTimeMillis());
+		gasto.setDate(date);
 		listGasto.add(gasto);
 		//redirect te llevara al RequesMapping /holaPage
 		return "redirect:/holaPage";
