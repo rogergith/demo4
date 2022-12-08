@@ -5,7 +5,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	
+  <fieldset>
   <table>
     <tbody>
 		 <tr th:each="u : ${users}">
@@ -13,11 +14,47 @@
 			<td th:text="${u.name}">1</td>
 			<td th:text="${u.email}">1</td>
 			<td th:text="${u.phone}">1</td>
+			<td th:text="${2 < 5 ? 'es menor' : 'es mayor'}">1</td>
+			<td th:text="${ !(2 == 3) ? 'son iguales' : 'son diferentes'}">1</td>
+			<td th:text="${ u.email.concat(' - '+u.phone)  }">1</td>
+			<td th:text="${ u.email.concat(' - '+u.phone).length  }">1</td>
+			<td th:text="${ u.name.toUpperCase()  }">1</td>
 		</tr>
     </tbody>
   </table>
-
-<input type="text" id="datePlanted" name="datePlanted" th:value="*{datePlanted}" />
+  </fieldset>
+  
+  <fieldset>
+  <table>
+    <tbody>
+		 <tr th:each="gasto : ${listGasto}">
+			<td th:text="${gasto.descripcion}">1</td>
+			<td th:text="${gasto.gasto}">1</td>
+		</tr>
+    </tbody>
+  </table>
+  </fieldset>
+  
+  
+  
+      <form action="#" th:action="@{/crearGasto}" th:object="${gasto}" method="post">
+        <fieldset>
+          <table>
+			  <tr>
+			    <td>descripcion</td>
+			    <td><input type="text" th:field="*{descripcion}" /></td>
+			  </tr>
+			  <tr>
+			    <td>monto</td>
+			    <td><input type="text" th:field="*{gasto}" /></td>
+			  </tr>
+		  </table>
+          <div class="submit">
+            <button type="submit" name="guardarGasto" >guardar</button>    
+          </div>  
+        </fieldset>
+          
+      </form>
 
 </body>
 </html>

@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,9 +15,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.business.entities.Gasto;
+import com.example.demo.business.entities.SeedStarter;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.google.gson.Gson;
 
@@ -23,8 +30,10 @@ import com.google.gson.Gson;
 @Controller
 public class ControllerPage {
 	
+	private ArrayList<Gasto> listGasto = new ArrayList<>();
+	
 	@RequestMapping(value = "/holaPage")
-	public ModelAndView index(Model model) {
+	public ModelAndView index(final Gasto gastos, final ModelMap model) {
 		
 		HashMap<String, Object> attributeValue = new HashMap<String, Object>();
 		attributeValue.put("nombre", "Roger");
@@ -105,12 +114,24 @@ public class ControllerPage {
 		ModelAndView modelAndView = new ModelAndView("hola");
 		
 		modelAndView.addObject("users", roots);
+		modelAndView.addObject("listGasto", listGasto);
 		
 		modelAndView.addObject("jsonObject", jsonObject);
+		Gasto gasto = new Gasto();
+		modelAndView.addObject("gasto", gasto);
 		
 		return modelAndView;
 	}
 
+	
+	@RequestMapping(value = "/crearGasto", params = {"guardarGasto"})
+	public String indexfrom(@ModelAttribute(name = "gasto") Gasto gasto, BindingResult bindingResult, ModelMap model) {
+		listGasto.add(gasto);
+		//redirect te llevara al RequesMapping /holaPage
+		return "redirect:/holaPage";
+	}
+	
+    
 
 
 class Address{
