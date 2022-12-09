@@ -3,8 +3,46 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 </head>
-<body>
+
+<style th:inline="css">
+ 
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+
+<body class="container">
 	
   <fieldset>
   <table>
@@ -24,6 +62,10 @@
   </table>
   </fieldset>
   
+  <div th:text = "${#aggregates.sum(listGasto.![gasto])}" ></div>
+  
+   <div th:text = "${#aggregates.sum(listGasto.?[#this.tipoGasto == 1].![gasto])}" ></div>
+  
   <fieldset>
   <table>
     <tbody>
@@ -38,42 +80,49 @@
 		 <tr th:each="gasto : ${listGasto}">
 			<td th:text="${gasto.descripcion}">1</td>
 			<td th:text="${gasto.gasto}">1</td>
-			<td th:text="${gasto.date}">1</td>
-			<td th:text="${gasto.tipoGasto}">1</td>
+			<td th:text="${#dates.format(gasto.date,'dd/MM/yyyy HH:mm')}">1</td>
 			<td th:text="${listTipoGasto.?[#this.id == #root.gasto.tipoGasto ][0].tipo}">1</td>
 		</tr>
     </tbody>
   </table>
   </fieldset>
   
-  
-  
+  	
+	 <div class="container-fluid">
       <form action="#" th:action="@{/crearGasto}" th:object="${gasto}" method="post">
         <fieldset>
-          <table>
-			  <tr>
-			    <td>descripcion</td>
-			    <td><input type="text" th:field="*{descripcion}" /></td>
-			  </tr>
-			  <tr>
-			    <td>monto</td>
-			    <td><input type="text" th:field="*{gasto}" /></td>
-			  </tr>
-			  <tr>
-			  	<td>tipo</td>
-			    <td>
+          	
+          		<div class="col-25">
+			    	<label>descripcion</label>
+			    </div>
+            	<div class="col-75">
+			    	<input type="text" th:field="*{descripcion}" />
+			  	</div>
+			    
+			    <div class="col-25">
+			    	<label>monto</label>
+			    </div>
+			    <div class="col-75">
+			    	<input type="text" th:field="*{gasto}" />
+				</div>
+			
+			  	<div class="col-25">
+		        	<label>tipo</label>
+		        </div>
+			    <div class="col-75">
 			    	<select th:field="*{tipoGasto}">
                       <option th:each="t : ${listTipoGasto}" th:value="${t.id}" th:text="${t.tipo}">Thymus Thymi</option>
                     </select>
-                </td>
-			  </tr>
-		  </table>
-          <div class="submit">
-            <button type="submit" name="guardarGasto" >guardar</button>    
-          </div>  
+                </div>
+	    
+	          <div class="submit">
+	            <button type="submit" name="guardarGasto" >guardar</button>    
+	          </div>  
+        
         </fieldset>
           
       </form>
-
+	</div>
+	
 </body>
 </html>
