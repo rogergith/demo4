@@ -3,7 +3,11 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<!-- 
     <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+ -->
+    <link href="../bootstrap.min.css" rel="stylesheet" th:href="@{/bootstrap.min.css}" />
+    <link href="../form-validation.css" rel="stylesheet" th:href="@{/form-validation.css}" />
 </head>
 
 <style th:inline="css">
@@ -131,7 +135,7 @@ input[type=submit]:hover {
       <form action="#" th:action="@{/crearGasto}" th:object="${gasto}" method="post">
         <fieldset>
           	
-          		<div class="col-25">
+<!--           		<div class="col-25">
 			    	<label>descripcion</label>
 			    </div>
             	<div class="col-75">
@@ -152,7 +156,7 @@ input[type=submit]:hover {
 			    	<select th:field="*{tipoGasto}">
                       <option th:each="t : ${listTipoGasto}" th:value="${t.id}" th:text="${t.tipo}">Thymus Thymi</option>
                     </select>
-                </div>
+                </div> -->
 	    
 	          <div class="submit">
 	            <button type="submit" name="guardarGasto" >guardar</button>    
@@ -163,5 +167,80 @@ input[type=submit]:hover {
       </form>
 	</div>
 	
+	
+	
+	
+	<div class="container">
+		
+		<main>
+			
+			<table class="table col-md-7 col-lg-8">
+			  <thead>
+			    <tr>
+			      <th scope="col">descripcion</th>
+			      <th scope="col">gasto</th>
+			      <th scope="col">fecha</th>
+			      <th scope="col">categoria</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="gasto : ${listGasto}">
+					<td th:text="${gasto.descripcion}">1</td>
+					<td th:text="${gasto.gasto}">1</td>
+					<td th:text="${#dates.format(gasto.date,'dd/MM/yyyy HH:mm')}">1</td>
+					<td th:text="${listTipoGasto.?[#this.id == #root.gasto.tipoGasto ][0].tipo}">1</td>
+			    </tr>
+			  </tbody>
+			</table>
+		
+			<form class="" action="#" th:action="@{/crearGasto}" th:object="${gasto}" method="post">
+				<div class="col-md-7 col-lg-8">
+		        <h4 class="mb-3">Billing address</h4>
+		        <form class="needs-validation" novalidate="">
+		          <div class="row g-3">
+		            <div class="col-sm-6">
+		              <label for="firstName" class="form-label">descripcion</label>
+		              <input type="text" class="form-control" id="firstName" placeholder="" value="" required="" th:field="*{descripcion}">
+		              <div class="invalid-feedback">
+		                Valid first name is required.
+		              </div>
+		            </div>
+		
+		            <div class="col-sm-6">
+		              <label for="lastName" class="form-label">gasto</label>
+		              <input type="text" class="form-control" id="lastName" placeholder="" value="" required="" th:field="*{gasto}">
+		              <div class="invalid-feedback">
+		                Valid last name is required.
+		              </div>
+		            </div>
+		            
+		            <div class="col-md-4">
+		              <label for="state" class="form-label">State</label>
+		              <select class="form-select" id="state" required="" th:field="*{tipoGasto}">
+		                <option value="" th:each="t : ${listTipoGasto}" th:value="${t.id}" th:text="${t.tipo}">Choose...</option>
+		              </select>
+		              <div class="invalid-feedback">
+		                Please provide a valid state.
+		              </div>
+		            </div>
+          
+		           <button class="w-100 btn btn-primary btn-lg" type="submit" name="guardarGasto">guardar</button>
+	            </form>
+		      </div>
+			</form>
+		</main>
+	
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	    <script src="bootstrap.bundle.min.js"></script>
+
+      <script src="form-validation.js"></script>
 </body>
 </html>
