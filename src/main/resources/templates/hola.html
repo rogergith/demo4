@@ -178,7 +178,23 @@ input[type=submit]:hover {
 	<div class="container">
 		
 		<main>
-			
+		
+		<ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">gasto total</h6>
+            </div>
+            <span class="text-muted" th:text = "${#aggregates.sum(listGasto.![gasto])}">$12</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-sm">
+            <div>
+              <h6 class="my-0">gasto en comida</h6>
+            </div>
+            <span class="text-muted" th:text = "${#aggregates.sum(listGasto.?[#this.tipoGasto == 1].![gasto])}">$8</span>
+          </li>
+        </ul>
+	
+  		
 			<table class="table-responsive-sm">
 			  <thead>
 			    <tr>
@@ -245,7 +261,6 @@ input[type=submit]:hover {
 	
 	
 	  <script src="bootstrap.bundle.min.js"></script>
-
       <script src="form-validation.js"></script>
 </body>
 </html>
