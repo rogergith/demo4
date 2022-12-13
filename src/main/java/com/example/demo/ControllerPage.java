@@ -149,6 +149,14 @@ public class ControllerPage {
 		return "redirect:/holaPage";
 	}
 	
+	@RequestMapping(value = "/page")
+	public ModelAndView pagina(ModelMap model) {
+		
+		ModelAndView modelAndView = new ModelAndView("pagina");
+		
+		return modelAndView;
+	}
+	
     
 
 
