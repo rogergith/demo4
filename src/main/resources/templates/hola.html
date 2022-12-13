@@ -85,9 +85,9 @@ input[type=submit]:hover {
 }
 </style>
 
-<body class="container">
+<body>
 	
-  <fieldset>
+ <!--  <fieldset>
   <table>
     <tbody>
 		 <tr th:each="u : ${users}">
@@ -135,7 +135,7 @@ input[type=submit]:hover {
       <form action="#" th:action="@{/crearGasto}" th:object="${gasto}" method="post">
         <fieldset>
           	
-<!--           		<div class="col-25">
+<           		<div class="col-25">
 			    	<label>descripcion</label>
 			    </div>
             	<div class="col-75">
@@ -156,7 +156,7 @@ input[type=submit]:hover {
 			    	<select th:field="*{tipoGasto}">
                       <option th:each="t : ${listTipoGasto}" th:value="${t.id}" th:text="${t.tipo}">Thymus Thymi</option>
                     </select>
-                </div> -->
+                </div> 
 	    
 	          <div class="submit">
 	            <button type="submit" name="guardarGasto" >guardar</button>    
@@ -165,7 +165,7 @@ input[type=submit]:hover {
         </fieldset>
           
       </form>
-	</div>
+	</div> -->
 	
 	
 	
@@ -174,7 +174,7 @@ input[type=submit]:hover {
 		
 		<main>
 			
-			<table class="table col-md-7 col-lg-8">
+			<table class="table-responsive-sm">
 			  <thead>
 			    <tr>
 			      <th scope="col">descripcion</th>
